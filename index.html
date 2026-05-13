@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Six Vowels of Ukrainian — First Steps in Ukrainian</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,500;0,9..40,700;1,9..40,300;1,9..40,500&family=DM+Serif+Display:ital@0;1&display=swap');
+
+  :root {
+    --teal:    #1B6B7B;
+    --teal-dk: #134f5c;
+    --teal-lt: #EBF5F7;
+    --orange:  #E8531C;
+    --peach:   #F9EDE8;
+    --lblue:   #B8D4E8;
+    --lblue-lt:#E8F2F8;
+    --ua-blue: #005BBB;
+    --ua-yel:  #FFD500;
+    --white:   #ffffff;
+    --mid:     #6B6B6B;
+    --dark:    #1a1a1a;
+    --card-r:  14px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--peach);
+    color: var(--dark);
+    min-height: 100vh;
+  }
+
+  /* ── FLAG STRIP ── */
+  .flag-strip {
+    display: flex;
+    height: 8px;
+  }
+  .flag-strip .blue { background: var(--ua-blue); flex: 1; }
+  .flag-strip .yellow { background: var(--ua-yel); flex: 1; }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--teal);
+    padding: 32px 48px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  .header-left { display: flex; flex-direction: column; gap: 6px; }
+
+  .course-label {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--lblue);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .header-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 32px;
+    color: var(--white);
+    line-height: 1.15;
+  }
+
+  .header-subtitle {
+    font-size: 15px;
+    color: rgba(255,255,255,0.7);
+    font-style: italic;
+    margin-top: 2px;
+  }
+
+  .header-chips {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .chip {
+    border: 2px solid rgba(255,255,255,0.5);
+    border-radius: 20px;
+    padding: 5px 16px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--white);
+    white-space: nowrap;
+  }
+
+  /* ── ORANGE ACCENT LINE ── */
+  .accent-bar {
+    height: 5px;
+    background: var(--orange);
+  }
+
+  /* ── INTRO SECTION ── */
+  .intro {
+    max-width: 860px;
+    margin: 52px auto 0;
+    padding: 0 32px;
+    text-align: center;
+  }
+
+  .intro-eyebrow {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 12px;
+  }
+
+  .intro h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 38px;
+    color: var(--teal);
+    line-height: 1.2;
+    margin-bottom: 18px;
+  }
+
+  .intro p {
+    font-size: 17px;
+    color: var(--mid);
+    line-height: 1.7;
+    max-width: 640px;
+    margin: 0 auto;
+  }
+
+  /* ── TIMELINE CONTAINER ── */
+  .timeline {
+    max-width: 960px;
+    margin: 56px auto 80px;
+    padding: 0 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    position: relative;
+  }
+
+  /* vertical connector line */
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 72px;
+    top: 32px;
+    bottom: 32px;
+    width: 3px;
+    background: linear-gradient(to bottom, var(--teal), var(--lblue), var(--teal));
+    border-radius: 2px;
+    opacity: 0.35;
+  }
+
+  /* ── VOWEL CARD ── */
+  .vowel-card {
+    display: grid;
+    grid-template-columns: 144px 1fr;
+    gap: 0;
+    background: var(--white);
+    border-radius: var(--card-r);
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(27,107,123,0.08);
+    margin-bottom: 24px;
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.5s ease, transform 0.5s ease, box-shadow 0.25s ease;
+    position: relative;
+    z-index: 1;
+  }
+
+  .vowel-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .vowel-card:hover {
+    box-shadow: 0 8px 32px rgba(27,107,123,0.14);
+  }
+
+  /* left sidebar of card */
+  .card-sidebar {
+    background: var(--teal);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 28px 16px;
+    gap: 8px;
+    position: relative;
+  }
+
+  .card-sidebar.orange-bg { background: var(--orange); }
+  .card-sidebar.lblue-bg { background: var(--lblue); }
+
+  .card-time {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: rgba(255,255,255,0.6);
+    text-transform: uppercase;
+  }
+
+  .card-letter {
+    font-family: 'DM Serif Display', serif;
+    font-size: 72px;
+    color: var(--white);
+    line-height: 1;
+  }
+
+  .card-letter-small {
+    font-family: 'DM Serif Display', serif;
+    font-size: 36px;
+    color: rgba(255,255,255,0.5);
+    line-height: 1;
+  }
+
+  .card-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: rgba(255,255,255,0.75);
+    text-transform: uppercase;
+  }
+
+  /* right content area */
+  .card-body {
+    padding: 28px 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 14px;
+  }
+
+  .card-header-row {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .card-vowel-name {
+    font-family: 'DM Serif Display', serif;
+    font-size: 28px;
+    color: var(--teal);
+  }
+
+  .card-vowel-name.orange { color: var(--orange); }
+
+  .sound-tag {
+    background: var(--teal-lt);
+    color: var(--teal);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border-radius: 6px;
+    padding: 3px 10px;
+  }
+
+  .sound-tag.orange-tag { background: #FDF0EB; color: var(--orange); }
+
+  .card-narration {
+    font-size: 15.5px;
+    color: var(--mid);
+    line-height: 1.65;
+  }
+
+  /* examples row */
+  .examples-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 2px;
+  }
+
+  .example-badge {
+    background: var(--peach);
+    border-radius: 8px;
+    padding: 7px 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1px;
+    min-width: 72px;
+  }
+
+  .example-badge.lblue { background: var(--lblue-lt); }
+
+  .badge-lang {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--mid);
+  }
+
+  .badge-word {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--teal);
+  }
+
+  .badge-word.orange { color: var(--orange); }
+
+  /* ── SPECIAL: double vowel card (І vs И) ── */
+  .vowel-card.double-card {
+    grid-template-columns: 144px 1fr;
+  }
+
+  .double-sidebar {
+    background: var(--teal);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 12px;
+    gap: 0;
+  }
+
+  .double-half {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 14px 0;
+    width: 100%;
+  }
+
+  .double-half:first-child {
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+  }
+
+  .vs-badge {
+    font-size: 10px;
+    font-weight: 800;
+    color: var(--orange);
+    letter-spacing: 0.15em;
+    padding: 4px 0;
+  }
+
+  .double-body {
+    padding: 24px 32px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    align-items: start;
+  }
+
+  .double-col h3 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px;
+    color: var(--teal);
+    margin-bottom: 8px;
+  }
+
+  .double-col h3.orange { color: var(--orange); }
+
+  .note-box {
+    background: #FDF6F3;
+    border-left: 3px solid var(--orange);
+    border-radius: 0 6px 6px 0;
+    padding: 10px 14px;
+    font-size: 13px;
+    color: var(--mid);
+    line-height: 1.55;
+    margin-top: 10px;
+    font-style: italic;
+  }
+
+  /* ── RECAP TABLE ── */
+  .recap-section {
+    max-width: 960px;
+    margin: 0 auto 80px;
+    padding: 0 32px;
+  }
+
+  .recap-section h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 30px;
+    color: var(--teal);
+    margin-bottom: 24px;
+    text-align: center;
+  }
+
+  .recap-table {
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: var(--card-r);
+    overflow: hidden;
+    box-shadow: 0 2px 16px rgba(27,107,123,0.10);
+  }
+
+  .recap-table thead tr {
+    background: var(--teal);
+  }
+
+  .recap-table thead th {
+    color: var(--white);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 14px 18px;
+    text-align: left;
+  }
+
+  .recap-table tbody tr:nth-child(even) { background: var(--teal-lt); }
+  .recap-table tbody tr:nth-child(odd)  { background: var(--white); }
+
+  .recap-table tbody td {
+    padding: 12px 18px;
+    font-size: 15px;
+    color: var(--dark);
+    vertical-align: middle;
+  }
+
+  .recap-table tbody td:first-child {
+    font-family: 'DM Serif Display', serif;
+    font-size: 26px;
+    color: var(--teal);
+    font-weight: normal;
+    width: 60px;
+  }
+
+  .recap-table tbody td .sound-label {
+    display: inline-block;
+    background: var(--peach);
+    border-radius: 6px;
+    padding: 2px 8px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--orange);
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--teal-dk);
+    padding: 28px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .footer-left {
+    font-size: 13px;
+    color: rgba(255,255,255,0.6);
+    line-height: 1.6;
+  }
+
+  .footer-left strong { color: var(--white); }
+
+  .footer-logo {
+    font-family: 'DM Serif Display', serif;
+    font-size: 28px;
+    letter-spacing: 0.02em;
+  }
+  .footer-logo span { color: var(--orange); }
+  .footer-logo .rest { color: var(--white); }
+
+  /* ── AUDIO BUTTONS ── */
+  .audio-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-top: 4px;
+  }
+
+  .btn-audio {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    border: none;
+    border-radius: 30px;
+    padding: 7px 16px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+    outline: none;
+    user-select: none;
+  }
+
+  .btn-audio:active { transform: scale(0.95); }
+
+  /* pronunciation — teal pill */
+  .btn-sound {
+    background: var(--teal);
+    color: var(--white);
+    box-shadow: 0 2px 8px rgba(27,107,123,0.25);
+  }
+  .btn-sound:hover { background: var(--teal-dk); box-shadow: 0 4px 14px rgba(27,107,123,0.35); }
+  .btn-sound.orange-btn { background: var(--orange); box-shadow: 0 2px 8px rgba(232,83,28,0.25); }
+  .btn-sound.orange-btn:hover { background: #c94315; box-shadow: 0 4px 14px rgba(232,83,28,0.35); }
+  .btn-sound.lblue-btn { background: var(--lblue); color: var(--teal); box-shadow: 0 2px 8px rgba(184,212,232,0.4); }
+  .btn-sound.lblue-btn:hover { background: #a3c4de; }
+
+  /* narration — ghost pill */
+  .btn-narration {
+    background: transparent;
+    color: var(--teal);
+    border: 1.5px solid var(--teal);
+    box-shadow: none;
+  }
+  .btn-narration:hover { background: var(--teal-lt); }
+  .btn-narration.orange-outline { color: var(--orange); border-color: var(--orange); }
+  .btn-narration.orange-outline:hover { background: #fdf0eb; }
+
+  /* playing state — pulse animation */
+  .btn-audio.playing {
+    animation: pulse-btn 0.9s ease-in-out infinite alternate;
+  }
+  @keyframes pulse-btn {
+    from { box-shadow: 0 0 0 0 rgba(27,107,123,0.4); }
+    to   { box-shadow: 0 0 0 7px rgba(27,107,123,0); }
+  }
+  .btn-audio.orange-btn.playing, .btn-audio.orange-outline.playing {
+    animation: pulse-orange 0.9s ease-in-out infinite alternate;
+  }
+  @keyframes pulse-orange {
+    from { box-shadow: 0 0 0 0 rgba(232,83,28,0.4); }
+    to   { box-shadow: 0 0 0 7px rgba(232,83,28,0); }
+  }
+
+  /* icon svg inside button */
+  .btn-audio svg { flex-shrink: 0; }
+
+  /* missing-audio notice (shown when file not found) */
+  .audio-missing {
+    font-size: 11px;
+    color: var(--mid);
+    font-style: italic;
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+  }
+  .audio-missing.show { opacity: 1; }
+
+  /* ── PROGRESS BAR ── */
+  .progress-wrap {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    z-index: 100;
+    background: transparent;
+  }
+  .progress-bar {
+    height: 100%;
+    background: var(--orange);
+    width: 0%;
+    transition: width 0.1s linear;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 700px) {
+    header { padding: 24px; }
+    .header-title { font-size: 24px; }
+    .timeline { padding: 0 16px; }
+    .timeline::before { left: 52px; }
+    .vowel-card { grid-template-columns: 100px 1fr; }
+    .card-letter { font-size: 52px; }
+    .card-body { padding: 20px 18px; }
+    .double-body { grid-template-columns: 1fr; }
+    .recap-section { padding: 0 16px; }
+    .intro { padding: 0 20px; }
+    footer { padding: 20px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="progress-wrap"><div class="progress-bar" id="prog"></div></div>
+
+<!-- Flag strip -->
+<div class="flag-strip"><div class="blue"></div><div class="yellow"></div></div>
+
+<!-- Header -->
+<header>
+  <div class="header-left">
+    <span class="course-label">First Steps in Ukrainian · Week 1 · Educational Video</span>
+    <h1 class="header-title">Six Vowels of Ukrainian<br>А, Е, І, И, О, У</h1>
+    <p class="header-subtitle">A pronunciation guide for speakers of European languages</p>
+  </div>
+  <div class="header-chips">
+    <span class="chip">A1 Beginner</span>
+    <span class="chip">~3 min</span>
+    <span class="chip">Pronunciation</span>
+  </div>
+</header>
+<div class="accent-bar"></div>
+
+<!-- Intro -->
+<section class="intro">
+  <p class="intro-eyebrow">Why start with vowels?</p>
+  <h2>Mastering Ukrainian starts<br>with six simple sounds.</h2>
+  <p>If you speak a European language — French, Spanish, English, German, or Italian — you already know these vowels. Let's map them out.</p>
+</section>
+
+<!-- Timeline of vowels -->
+<div class="timeline">
+
+  <!-- А -->
+  <div class="vowel-card" data-delay="0">
+    <div class="card-sidebar">
+      <span class="card-time">0:20–0:45</span>
+      <span class="card-letter">А</span>
+      <span class="card-letter-small">а</span>
+      <span class="card-label">Vowel 1</span>
+    </div>
+    <div class="card-body">
+      <div class="card-header-row">
+        <span class="card-vowel-name">А — the open "ah"</span>
+        <span class="sound-tag">like "ah"</span>
+      </div>
+      <p class="card-narration">This is the open 'a' you find in the English <em>Father</em>, the French <em>Papa</em>, or the Spanish and Italian <em>Casa</em>. It's wide, central, and relaxed. Just drop your jaw and say: <strong>А.</strong></p>
+      <div class="examples-row">
+        <div class="example-badge"><span class="badge-lang">ENG</span><span class="badge-word">F<u>a</u>ther</span></div>
+        <div class="example-badge"><span class="badge-lang">FR</span><span class="badge-word">P<u>a</u>pa</span></div>
+        <div class="example-badge"><span class="badge-lang">SPA/ITA</span><span class="badge-word">C<u>a</u>sa</span></div>
+      </div>
+      <div class="audio-row">
+        <button class="btn-audio btn-sound" onclick="playAudio('audio/sound-a.mp3', this)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+          Hear А
+        </button>
+        <button class="btn-audio btn-narration" onclick="playAudio('audio/narration-a.mp3', this)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
+          Play narration
+        </button>
+        <span class="audio-missing" id="missing-a">⚠ Audio file not found — see README</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- О -->
+  <div class="vowel-card" data-delay="100">
+    <div class="card-sidebar orange-bg">
+      <span class="card-time">0:45–1:10</span>
+      <span class="card-letter">О</span>
+      <span class="card-letter-small">о</span>
+      <span class="card-label">Vowel 2</span>
+    </div>
+    <div class="card-body">
+      <div class="card-header-row">
+        <span class="card-vowel-name orange">О — the rounded "oh"</span>
+        <span class="sound-tag orange-tag">like "oh"</span>
+      </div>
+      <p class="card-narration">A rounded, 'open' sound. Think of the English words <em>More</em> or <em>Horse</em>. Your lips should be clearly rounded (forming a small circle) and your tongue is pulled back toward the soft palate.</p>
+      <div class="examples-row">
+        <div class="example-badge"><span class="badge-lang">ENG</span><span class="badge-word">M<u>o</u>re</span></div>
+        <div class="example-badge"><span class="badge-lang">ENG</span><span class="badge-word">H<u>o</u>rse</span></div>
+      </div>
+      <div class="audio-row">
+        <button class="btn-audio btn-sound orange-btn" onclick="playAudio('audio/sound-o.mp3', this)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+          Hear О
+        </button>
+        <button class="btn-audio btn-narration orange-outline" onclick="playAudio('audio/narration-o.mp3', this)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
+          Play narration
+        </button>
+        <span class="audio-missing" id="missing-o">⚠ Audio file not found — see README</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Е -->
+  <div class="vowel-card" data-delay="200">
+    <div class="card-sidebar">
+      <span class="card-time">1:10–1:35</span>
+      <span class="card-letter">Е</span>
+      <span class="card-letter-small">е</span>
+      <span class="card-label">Vowel 3</span>
+    </div>
+    <div class="card-body">
+      <div class="card-header-row">
+        <span class="card-vowel-name">Е — the short "eh"</span>
+        <span class="sound-tag">like "eh"</span>
+      </div>
+      <p class="card-narration">Don't let the shape fool you. It's not "ee" — it's a mid-open 'e' like the English <em>Pet</em>, the French <em>Bec</em>, the German <em>Bett</em>. It's crisp and flat. Keep it short: <strong>Е.</strong></p>
+      <div class="examples-row">
+        <div class="example-badge"><span class="badge-lang">ENG</span><span class="badge-word">P<u>e</u>t</span></div>
+        <div class="example-badge"><span class="badge-lang">FR</span><span class="badge-word">B<u>e</u>c</span></div>
+        <div class="example-badge"><span class="badge-lang">GER</span><span class="badge-word">B<u>e</u>tt</span></div>
+      </div>
+      <div class="audio-row">
+        <button class="btn-audio btn-sound" onclick="playAudio('audio/sound-e.mp3', this)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+          Hear Е
+        </button>
+        <button class="btn-audio btn-narration" onclick="playAudio('audio/narration-e.mp3', this)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
+          Play narration
+        </button>
+        <span class="audio-missing" id="missing-e">⚠ Audio file not found — see README</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- І vs И — special double card -->
+  <div class="vowel-card double-card" data-delay="300">
+    <div class="double-sidebar">
+      <div class="double-half">
+        <span class="card-time" style="color:rgba(255,255,255,0.55);font-size:9px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;">1:35–2:30</span>
+        <span style="font-family:'DM Serif Display',serif;font-size:58px;color:white;line-height:1;">І</span>
+        <span style="font-family:'DM Serif Display',serif;font-size:28px;color:rgba(255,255,255,0.45);line-height:1;">і</span>
+      </div>
+      <span class="vs-badge">VS</span>
+      <div class="double-half">
+        <span style="font-family:'DM Serif Display',serif;font-size:58px;color:white;line-height:1;">И</span>
+        <span style="font-family:'DM Serif Display',serif;font-size:28px;color:rgba(255,255,255,0.45);line-height:1;">и</span>
+        <span style="font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,0.55);margin-top:4px;">Vowels 4–5</span>
+      </div>
+    </div>
+    <div class="double-body">
+      <div class="double-col">
+        <h3>І — the bright "ee"</h3>
+        <p class="card-narration" style="font-size:14.5px;">The one <em>with the dot</em> — the smiling vowel. A bright sound like the 'ee' in the English <em>See</em>, the French <em>Vite</em>, or the Italian <em>Sì</em>.</p>
+        <div class="examples-row" style="margin-top:8px;">
+          <div class="example-badge lblue"><span class="badge-lang">ENG</span><span class="badge-word">S<u>ee</u></span></div>
+          <div class="example-badge lblue"><span class="badge-lang">FR</span><span class="badge-word">V<u>i</u>te</span></div>
+          <div class="example-badge lblue"><span class="badge-lang">ITA</span><span class="badge-word">S<u>ì</u></span></div>
+        </div>
+        <div class="audio-row" style="margin-top:10px;">
+          <button class="btn-audio btn-sound lblue-btn" onclick="playAudio('audio/sound-i.mp3', this)">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+            Hear І
+          </button>
+          <button class="btn-audio btn-narration" onclick="playAudio('audio/narration-i.mp3', this)">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
+            Play narration
+          </button>
+        </div>
+      </div>
+      <div class="double-col">
+        <h3 class="orange">И — the dull "ih"</h3>
+        <p class="card-narration" style="font-size:14.5px;">The 'black sheep.' It doesn't exist in French. A dull, lower sound — exactly like the 'i' in the English <em>Bit</em> or <em>Sit</em>. Think of German <em>Wissen</em>. Say 'i' but pull your tongue back: <strong>И.</strong></p>
+        <div class="examples-row" style="margin-top:8px;">
+          <div class="example-badge"><span class="badge-lang">ENG</span><span class="badge-word">B<u>i</u>t</span></div>
+          <div class="example-badge"><span class="badge-lang">GER</span><span class="badge-word">W<u>i</u>ssen</span></div>
+        </div>
+        <div class="note-box">Not like the French 'i'. Lower and stiffer.</div>
+        <div class="audio-row" style="margin-top:10px;">
+          <button class="btn-audio btn-sound orange-btn" onclick="playAudio('audio/sound-y.mp3', this)">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+            Hear И
+          </button>
+          <button class="btn-audio btn-narration orange-outline" onclick="playAudio('audio/narration-i-y.mp3', this)">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
+            Play narration (І vs И)
+          </button>
+          <span class="audio-missing" id="missing-iy">⚠ Audio file not found — see README</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- У -->
+  <div class="vowel-card" data-delay="400">
+    <div class="card-sidebar lblue-bg">
+      <span class="card-time">2:30–2:55</span>
+      <span class="card-letter" style="color:var(--teal);">У</span>
+      <span class="card-letter-small" style="color:rgba(27,107,123,0.4);">у</span>
+      <span class="card-label" style="color:rgba(27,107,123,0.7);">Vowel 6</span>
+    </div>
+    <div class="card-body">
+      <div class="card-header-row">
+        <span class="card-vowel-name">У — the deep "oo"</span>
+        <span class="sound-tag">like "oo"</span>
+      </div>
+      <p class="card-narration">It looks like a 'y' but it sounds like the 'oo' in <em>Boot</em>. This is a deep 'oo' sound, like the French <em>Tout</em> or the Spanish <em>Luna</em>. Push your lips forward like you're about to whistle: <strong>У.</strong></p>
+      <div class="examples-row">
+        <div class="example-badge"><span class="badge-lang">ENG</span><span class="badge-word">B<u>oo</u>t</span></div>
+        <div class="example-badge"><span class="badge-lang">FR</span><span class="badge-word">T<u>ou</u>t</span></div>
+        <div class="example-badge"><span class="badge-lang">SPA</span><span class="badge-word">L<u>u</u>na</span></div>
+      </div>
+      <div class="audio-row">
+        <button class="btn-audio btn-sound lblue-btn" onclick="playAudio('audio/sound-u.mp3', this)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+          Hear У
+        </button>
+        <button class="btn-audio btn-narration" onclick="playAudio('audio/narration-u.mp3', this)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
+          Play narration
+        </button>
+        <span class="audio-missing" id="missing-u">⚠ Audio file not found — see README</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Recap table -->
+<section class="recap-section">
+  <h2>Quick Reference</h2>
+  <table class="recap-table">
+    <thead>
+      <tr>
+        <th>Letter</th>
+        <th>Sound</th>
+        <th>Like…</th>
+        <th>Example</th>
+        <th>Tip</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>А</td>
+        <td><span class="sound-label">ah</span></td>
+        <td>English <em>Father</em></td>
+        <td>Wide, relaxed jaw</td>
+        <td>Open mouth, neutral tongue</td>
+      </tr>
+      <tr>
+        <td>О</td>
+        <td><span class="sound-label">oh</span></td>
+        <td>English <em>More</em></td>
+        <td>Rounded lips</td>
+        <td>Make a small circle with lips</td>
+      </tr>
+      <tr>
+        <td>Е</td>
+        <td><span class="sound-label">eh</span></td>
+        <td>English <em>Pet</em></td>
+        <td>Short, flat</td>
+        <td>Not "ee" — keep it crisp</td>
+      </tr>
+      <tr>
+        <td>І</td>
+        <td><span class="sound-label">ee</span></td>
+        <td>English <em>See</em></td>
+        <td>Bright, smiling</td>
+        <td>Spread lips, tongue forward</td>
+      </tr>
+      <tr>
+        <td>И</td>
+        <td><span class="sound-label">ih</span></td>
+        <td>English <em>Bit</em></td>
+        <td>Dull, lower</td>
+        <td>Say 'ee' but pull tongue back</td>
+      </tr>
+      <tr>
+        <td>У</td>
+        <td><span class="sound-label">oo</span></td>
+        <td>English <em>Boot</em></td>
+        <td>Deep, pursed</td>
+        <td>Lips forward like whistling</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- Footer -->
+<div class="flag-strip"><div class="blue"></div><div class="yellow"></div></div>
+<footer>
+  <div class="footer-left">
+    <strong>First Steps in Ukrainian</strong><br>
+    A1 Beginner · LULAC — Lesser Used Languages Classroom<br>
+    <a href="https://lulac.eu" style="color:var(--lblue);text-decoration:none;">lulac.eu</a>
+  </div>
+  <div class="footer-logo">
+    <span class="rest">LUL</span><span>a</span><span class="rest">C</span>
+  </div>
+</footer>
+
+<script>
+  // ── PROGRESS BAR ──
+  window.addEventListener('scroll', () => {
+    const scrolled = window.scrollY;
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    document.getElementById('prog').style.width = (scrolled / max * 100) + '%';
+  });
+
+  // ── SCROLL REVEAL ──
+  const cards = document.querySelectorAll('.vowel-card');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const delay = parseInt(entry.target.dataset.delay || 0);
+        setTimeout(() => entry.target.classList.add('visible'), delay);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  cards.forEach(card => observer.observe(card));
+
+  // ── AUDIO ENGINE ──
+  // One global Audio object — stops previous clip before playing new one
+  let currentAudio = null;
+  let currentBtn   = null;
+
+  const ICON_PLAY = `<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>`;
+  const ICON_SOUND = `<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>`;
+  const ICON_STOP  = `<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h12v12H6z"/></svg>`;
+
+  function isNarrationBtn(btn) {
+    return btn.classList.contains('btn-narration');
+  }
+
+  function setPlaying(btn, label) {
+    btn.classList.add('playing');
+    btn.innerHTML = ICON_STOP + ' ' + label;
+  }
+
+  function setIdle(btn, originalLabel, isSoundBtn) {
+    btn.classList.remove('playing');
+    btn.innerHTML = (isSoundBtn ? ICON_SOUND : ICON_PLAY) + ' ' + originalLabel;
+  }
+
+  function playAudio(src, btn) {
+    const isSoundBtn = !isNarrationBtn(btn);
+
+    // Derive original label from current text content (strip icon)
+    const originalLabel = btn.textContent.trim();
+
+    // If this button is already playing — stop it
+    if (currentBtn === btn && currentAudio && !currentAudio.paused) {
+      currentAudio.pause();
+      currentAudio.currentTime = 0;
+      setIdle(btn, originalLabel, isSoundBtn);
+      currentAudio = null;
+      currentBtn   = null;
+      return;
+    }
+
+    // Stop anything else playing
+    if (currentAudio) {
+      currentAudio.pause();
+      currentAudio.currentTime = 0;
+    }
+    if (currentBtn && currentBtn !== btn) {
+      const prevLabel = currentBtn.textContent.trim();
+      const prevIsSound = !isNarrationBtn(currentBtn);
+      setIdle(currentBtn, prevLabel, prevIsSound);
+    }
+
+    // Try to load and play
+    const audio = new Audio(src);
+    currentAudio = audio;
+    currentBtn   = btn;
+
+    audio.addEventListener('canplaythrough', () => {
+      setPlaying(btn, originalLabel);
+      audio.play();
+    }, { once: true });
+
+    audio.addEventListener('ended', () => {
+      setIdle(btn, originalLabel, isSoundBtn);
+      currentAudio = null;
+      currentBtn   = null;
+    });
+
+    audio.addEventListener('error', () => {
+      // File not found — show the warning message
+      setIdle(btn, originalLabel, isSoundBtn);
+      currentAudio = null;
+      currentBtn   = null;
+      // Find the nearest .audio-missing sibling
+      const row = btn.closest('.audio-row');
+      if (row) {
+        const warn = row.querySelector('.audio-missing');
+        if (warn) {
+          warn.classList.add('show');
+          setTimeout(() => warn.classList.remove('show'), 4000);
+        }
+      }
+    });
+
+    audio.load();
+  }
+</script>
+</body>
+</html>
